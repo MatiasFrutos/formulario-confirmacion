@@ -68,3 +68,6 @@ Se trata de un formulario web para confirmar compras, seleccionar productos, ace
 
 ## 📂 Archivos
 
+├── form-confirmacion.html # Estructura del formulario
+├── form-confirmacion.css # Estilos visuales y responsive
+└── form-confirmacion.js # Lógica, validaciones y PDF

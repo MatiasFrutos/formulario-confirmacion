@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Confirmación de compra — Agronomía Inteligente SRL</title>
+
+  <!-- Preload logo (si existe) -->
+  <link rel="preload" href="./logo.png" as="image">
+
+  <!-- jsPDF + AutoTable (PDF) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+
+  <link rel="stylesheet" href="form-confirmacion.css"/>
+</head>
+<body>
+  <header class="masthead" role="banner">
+    <div class="inner">
+      <img src="./logo.png" alt="Agronomía Inteligente SRL — Logo" class="logo" id="logoImg"/>
+      <div class="titles">
+        <div class="brandname">Agronomía Inteligente SRL</div>
+        <h1>Confirmación de compra</h1>
+        <p>Completá este formulario para que el servicio técnico configure tus equipos.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <form id="formCompra" novalidate>
+      <!-- Columna principal apilada -->
+      <div class="main">
+        <!-- ===== DATOS ===== -->
+        <section class="card">
+          <h2 class="card-title">Datos de facturación y contacto</h2>
+          <div class="grid">
+            <div class="field">
+              <label for="razon">Nombre y apellido / Razón social <span class="req">*</span></label>
+              <input id="razon" name="razon" type="text" required autocomplete="name" />
+              <small class="hint">Tal como aparecerá en la factura.</small>
+            </div>
+            <div class="field">
+              <label for="cuit">CUIT / DNI <span class="req">*</span></label>
+              <input id="cuit" name="cuit" type="text" inputmode="numeric" required placeholder="20-12345678-3 / 12345678"/>
+            </div>
+            <div class="field">
+              <label for="email">Correo electrónico <span class="req">*</span></label>
+              <input id="email" name="email" type="email" required autocomplete="email"/>
+            </div>
+            <div class="field">
+              <label for="tel">Teléfono / WhatsApp <span class="req">*</span></label>
+              <input id="tel" name="tel" type="tel" required placeholder="+54 9 11 ..."/>
+            </div>
+            <div class="field">
+              <label for="direccion">Dirección</label>
+              <input id="direccion" name="direccion" type="text" autocomplete="address-line1"/>
+            </div>
+            <div class="field">
+              <label for="ciudad">Ciudad / Provincia</label>
+              <input id="ciudad" name="ciudad" type="text"/>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ejecutivo">Seleccione su ejecutivo de ventas <span class="req">*</span></label>
+            <select id="ejecutivo" name="ejecutivo" required>
+              <option value="">— Elegí una opción —</option>
+              <option>Felipe Garcia - Uy</option>
+              <option>Juan Cruz Guglielmino</option>
+              <option>Marcelo Godoy - Py</option>
+              <option>Marcos Rodenas</option>
+              <option>Mariana Mujica</option>
+              <option>Martín Moltedo</option>
+              <option>Melina Gago</option>
+              <option>Nicolas D' Agostino</option>
+              <option>Sabrina David - Py</option>
+            </select>
+          </div>
+
+          <div class="eta"><strong>Plazo estimado de entrega:</strong> 30 a 45 días.</div>
+        </section>
+
+        <!-- ===== PRODUCTOS / ESPECIFICACIONES ===== -->
+        <section class="card">
+          <h2 class="card-title">Productos y especificaciones</h2>
+
+          <!-- Fieldset COMPACTO: cada producto es una fila Producto ←→ Cantidad/Modelo -->
+          <fieldset class="fieldset">
+            <legend>Seleccioná los productos adquiridos <span class="req">*</span></legend>
+
+            <div class="checks">
+              <!-- Solar Fija -->
+              <div class="product-row">
+                <label class="check">
+                  <input type="checkbox" id="prodFija" name="prodFija"/>
+                  <span>Hik Solar Fija</span>
+                </label>
+                <div class="qty" id="qtyFija" hidden>
+                  <label for="cantFija">Cantidad</label>
+                  <input id="cantFija" name="cantFija" type="number" min="1" step="1" placeholder="1"/>
+                </div>
+              </div>
+
+              <!-- Solar Domo -->
+              <div class="product-row">
+                <label class="check">
+                  <input type="checkbox" id="prodDomo" name="prodDomo"/>
+                  <span>Hik Solar Domo</span>
+                </label>
+                <div class="qty" id="qtyDomo" hidden>
+                  <label for="cantDomo">Cantidad</label>
+                  <input id="cantDomo" name="cantDomo" type="number" min="1" step="1" placeholder="1"/>
+                </div>
+              </div>
+
+              <!-- Solar Domo Pro -->
+              <div class="product-row">
+                <label class="check">
+                  <input type="checkbox" id="prodDomoPro" name="prodDomoPro"/>
+                  <span>Hik Solar Domo Pro</span>
+                </label>
+                <div class="qty" id="qtyDomoPro" hidden>
+                  <label for="cantDomoPro">Cantidad</label>
+                  <input id="cantDomoPro" name="cantDomoPro" type="number" min="1" step="1" placeholder="1"/>
+                </div>
+              </div>
+
+              <!-- Fija Hogareña -->
+              <div class="product-row">
+                <label class="check">
+                  <input type="checkbox" id="prodFijaHogar" name="prodFijaHogar"/>
+                  <span>Hik Fija Hogareña</span>
+                </label>
+                <div class="qty" id="qtyFijaHogar" hidden>
+                  <label for="cantFijaHogar">Cantidad</label>
+                  <input id="cantFijaHogar" name="cantFijaHogar" type="number" min="1" step="1" placeholder="1"/>
+                </div>
+              </div>
+
+              <!-- Otro -->
+              <div class="product-row">
+                <label class="check">
+                  <input type="checkbox" id="prodOtro" name="prodOtro"/>
+                  <span>Otro</span>
+                </label>
+                <div class="qty" id="otroModelos" hidden>
+                  <label for="modelos">Modelo/s</label>
+                  <input id="modelos" name="modelos" type="text" placeholder="Modelo, marca, etc."/>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="grid">
+            <div class="field">
+              <label for="fechaCompra">Fecha de compra <span class="req">*</span></label>
+              <input id="fechaCompra" name="fechaCompra" type="date" required/>
+            </div>
+
+            <div class="field">
+              <label for="origen">¿Cómo nos conociste?</label>
+              <select id="origen" name="origen">
+                <option value="">— Elegí una opción —</option>
+                <option>Redes sociales</option>
+                <option>Canal Rural</option>
+                <option>Radio</option>
+                <option>Diario</option>
+                <option>InfoCampo</option>
+                <option>Agroads</option>
+                <option>Agrofy</option>
+                <option>Exposición</option>
+                <option>Recomendación</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="especificaciones">Detallanos tus necesidades / Especificaciones técnicas</label>
+            <textarea id="especificaciones" name="especificaciones" rows="5" placeholder="Ubicación, cobertura esperada, autonomía, alertas, etc."></textarea>
+            <div class="counter" id="countSpecs">0/800</div>
+          </div>
+
+          <div class="field">
+            <label for="comprobante">Comprobante de pago (opcional)</label>
+            <input id="comprobante" name="comprobante" type="file" accept=".pdf,.jpg,.jpeg,.png"/>
+            <small class="hint">Acepta PDF/JPG/PNG (máx. 10MB).</small>
+          </div>
+        </section>
+
+        <!-- ===== DECLARACIONES ===== -->
+        <section class="card">
+          <h2 class="card-title">Declaraciones</h2>
+
+          <label class="check wide">
+            <input type="checkbox" id="chkConf" required/>
+            <span>Declaro conocer y aceptar la confidencialidad respecto de la información técnica y operativa provista por la empresa.</span>
+          </label>
+
+          <label class="check wide">
+            <input type="checkbox" id="chkTyC" required/>
+            <span>Estoy de acuerdo con los
+              <button type="button" class="link-btn" id="btnVerTyC">Términos y Condiciones</button>.
+            </span>
+          </label>
+        </section>
+      </div>
+
+      <!-- Columna lateral -->
+      <aside class="summary">
+        <div class="sum-card">
+          <h3>Resumen</h3>
+          <ul>
+            <li><span>Total de unidades</span><strong id="sumUnidades">0</strong></li>
+          </ul>
+        </div>
+        <div class="actions">
+          <button class="btn primary" type="submit">Enviar confirmación</button>
+          <button class="btn ghost" type="reset" id="btnReset">Limpiar</button>
+        </div>
+        <div id="formMsg" role="status" aria-live="polite"></div>
+      </aside>
+    </form>
+  </main>
+
+  <!-- ===== MODAL TÉRMINOS ===== -->
+  <dialog id="dlgTyC" aria-labelledby="tycTitle">
+    <article class="modal">
+      <header class="modal-head">
+        <h3 id="tycTitle">Términos y Condiciones</h3>
+        <button class="icon" id="btnCloseTyC" aria-label="Cerrar">✕</button>
+      </header>
+      <div class="modal-body">
+        <p>Declara conocer el derecho irrenunciable de los consumidores a revocar la aceptación del contrato cuando sea celebrado fuera de los establecimientos comerciales y a distancia. El comprador podrá realizar la devolución del equipo hasta en un plazo de 10 días de haber recibido el producto.</p>
+        <p>Declara conocer e irrevocablemente aceptar que en caso del cumplimiento de dicho plazo, el producto no podrá ser devuelto y entrará en vigencia la garantía del mismo.</p>
+        <p>Declara conocer e irrevocablemente aceptar que la información suministrada por “Agronomía Inteligente SRL” “Cámaraswifi” y “ Facundo Luis Rocha” con referencia a los productos; procedimientos de instalación y funcionamiento de los mismos, en ocasión del Contrato de venta de cámaras, es de carácter confidencial.-</p>
+        <p>Se compromete a mantenerla en estricta reserva y no revelar ningún dato de la información a ninguna otra parte, relacionada o no, sin el consentimiento previo escrito de la Empresa “Cámaraswifi”.-</p>
+        <p>Se compromete además a instruir al personal que estará encargado de recibir la información confidencial, debiendo suscribir el correspondiente acuerdo de confidencialidad si fuere necesario, de su obligación de recibir, tratar y usar la información confidencial que reciban como confidencial y destinada únicamente al propósito objeto del contrato referido, en los mismos términos en que se establece en el presente instrumento.-</p>
+        <p>La información confidencial suministrada no podrá ser reproducida por ningún medio ni en ningún formato por el Receptor de la misma, sin expresa autorización previa escrita de “Cámaraswifi ”.-</p>
+        <p>Declara además conocer e irrevocablemente aceptar que la violación total y/o parcial de tal deber de reserva y confidencialidad lo hará pasible de ser demandado judicialmente por todos los daños y perjuicios que a resultas de tal incumplimiento sufra y/o se ocasione a “Cámaraswifi”.-</p>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn primary" id="btnAceptoTyC">Acepto</button>
+      </footer>
+    </article>
+  </dialog>
+
+  <footer class="site-foot" role="contentinfo">
+    © <span id="year"></span> — Agronomía Inteligente SRL
+  </footer>
+
+  <script src="form-confirmacion.js"></script>
+</body>
+</html>
